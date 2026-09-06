@@ -37,5 +37,6 @@ struct record_header {
 };
 
 void generate_capture(const char* jsonl_path, const char* out_path);
+void read_capture(const char *path);
 
 #endif
