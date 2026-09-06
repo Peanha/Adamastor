@@ -37,6 +37,9 @@ struct option {
 
 #define OPT_BOOL(abbrev, name, var) { abbrev, name, Option_type::BOOL, var }
 
+/*
+ * Goes through the CLArgs, searching for matches with the options array.
+ */
 void parse_options(int argc, char **argv, std::span<const option> options);
 
 #endif
