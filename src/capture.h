@@ -36,6 +36,12 @@ struct record_header {
     uint16_t len;
 };
 
+/*
+ * Build a capture file from a JSONL, one record per line.
+ *
+ * Note: the timestamps are fake. This function exists because we don't have yet data directly
+ * from the exchange.
+ */
 void generate_capture(const char* jsonl_path, const char* out_path);
 
 #endif
