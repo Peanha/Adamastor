@@ -35,6 +35,6 @@ struct option {
 
 #define OPT_BOOL(abbrev, name, var) { abbrev, name, Option_type::BOOL, var }
 
-void parse_options(int argc, char **argv, std::span<const option> options);
+int parse_options(int argc, char **argv, std::span<const option> options);
 
 #endif

@@ -5,9 +5,11 @@
 #include <span>
 #include <algorithm>
 
-void parse_options(int argc, char **argv, std::span<const option> options)
+int parse_options(int argc, char **argv, std::span<const option> options)
 {
-    for (int i = 1; i < argc; i++) {
+    int i;
+
+    for (i = 1; i < argc; i++) {
         auto it = options.end();
 
         if (*argv[i] != '-' || argv[i][1] == '\0' || (argv[i][1] == '-' && argv[i][2] == '\0'))
@@ -38,4 +40,6 @@ void parse_options(int argc, char **argv, std::span<const option> options)
             break;
         }
     }
+
+    return i;
 }
