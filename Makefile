@@ -14,6 +14,7 @@ CXXFLAGS += -Wall -Werror -Wextra \
 TARGET = build/adamastor
 
 SRC  = src/main.cc
+SRC  += src/parse-options.cc
 
 OBJ = $(SRC:src/%.cc=build/%.o)
 DEP = $(OBJ:.o=.d)
