@@ -10,6 +10,6 @@ int main(int argc, char **argv)
 
     parse_options(argc, argv, options);
 
-    printf("test = %d\n", gen);
+    printf("gen = %d\n", gen);
     return 0;
 }
