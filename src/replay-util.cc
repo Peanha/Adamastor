@@ -1,3 +1,4 @@
+#include "util.h"
 #include "capture.h"
 
 #include <cstdint>
@@ -26,15 +27,11 @@ void generate_capture(const char *jsonl_path, const char *out_path)
     /* fake timestamp */
     uint64_t t = 1000;
 
-    if (!file) {
-        fprintf(stderr, "fatal: cannot open %s\n", jsonl_path);
-        return;
-    }
+    if (!file)
+        die("cannot open %s\n", jsonl_path);
 
-    if (!to_write) {
-        fprintf(stderr, "fatal: cannot open %s\n", out_path);
-        return;
-    }
+    if (!to_write)
+        die("cannot open %s\n", out_path);
 
     /*
      * Write hardcoded version to avoid having regresions between stored binaries.
@@ -67,21 +64,16 @@ void read_capture(const char *path)
     size_t n;
 
     if (!to_read) {
-        fprintf(stderr, "fatal: cannot open %s\n", path);
-        return;
+        die("cannot open %s\n", path);
     }
 
     to_read.read(reinterpret_cast<char *>(&version), sizeof(version));
 
-    if (!to_read) {
-        fprintf(stderr, "fatal: empty or truncated capture\n");
-        return;
-    }
+    if (!to_read)
+        die("empty or truncated capture\n");
 
-    if (version != BINARY_VERSION) {
-        fprintf(stderr, "fatal: wrong version, expected %d but read %d\n", BINARY_VERSION, version);
-        return;
-    }
+    if (version != BINARY_VERSION)
+        die("wrong version, expected %d but read %d\n", BINARY_VERSION, version);
 
     /*
      * Read each line as:
