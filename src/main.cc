@@ -1,15 +1,25 @@
 #include "capture.h"
 #include "parse-options.h"
 #include "util.h"
+#include <cstdio>
+
+constexpr int ADAMASTOR_VERSION[3] = { 0, 0, 1 };
+constexpr std::string_view HELP_MENU =
+    " Adamastor HFT usage:\n"
+    " --gen <in.jsonl> <out.bin>\n"
+    " --read <capture.bin>\n"
+    " --version\n";
 
 int main(int argc, char **argv)
 {
     bool gen = false;
     bool read = false;
+    bool version = false;
 
     const option options[] = {
         OPT_BOOL('g', "gen",  &gen),
         OPT_BOOL('r', "read", &read),
+        OPT_BOOL('V', "version", &version),
     };
 
     int i = parse_options(argc, argv, options);
@@ -30,6 +40,12 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    die("usage: %s --gen <in.jsonl> <out.bin> | --read <capture.bin>", argv[0]);
+    if (version) {
+        printf("Adamastor: %d.%d.%d\n", ADAMASTOR_VERSION[0],
+               ADAMASTOR_VERSION[1], ADAMASTOR_VERSION[2]);
+        return 0;
+    }
+
+    fprintf(stderr, "%s", HELP_MENU.data());
     return 1;
 }
