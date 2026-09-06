@@ -15,6 +15,7 @@ int main(int argc, char **argv)
     bool gen = false;
     bool read = false;
     bool version = false;
+    int i;
 
     const option options[] = {
         OPT_BOOL('g', "gen",  &gen),
@@ -22,7 +23,9 @@ int main(int argc, char **argv)
         OPT_BOOL('V', "version", &version),
     };
 
-    int i = parse_options(argc, argv, options);
+    i = parse_options(argc, argv, options);
+    if (int(gen) + int(read) + int(version) > 1)
+        die("--gen, --read and --version are mutually exclusive");
 
     if (gen) {
         if (argc - i != 2)
