@@ -1,6 +1,6 @@
+#include "util.h"
 #include "parse-options.h"
 
-#include <cstdio>
 #include <cstdlib>
 #include <span>
 #include <algorithm>
@@ -32,10 +32,8 @@ int parse_options(int argc, char **argv, std::span<const option> options)
             });
         }
 
-        if (it == options.end()) {
-            fprintf(stderr, "unknown option '%s'\n", argv[i]);
-            exit(1);
-        }
+        if (it == options.end())
+            die("unknown option '%s'", argv[i]);
 
         /*
          * Only bool type for now.
