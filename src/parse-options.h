@@ -39,7 +39,8 @@ struct option {
 
 /*
  * Goes through the CLArgs, searching for matches with the options array.
+ * When it founds a no-opt exits and returns the index where it stopped.
  */
-void parse_options(int argc, char **argv, std::span<const option> options);
+int parse_options(int argc, char **argv, std::span<const option> options);
 
 #endif
