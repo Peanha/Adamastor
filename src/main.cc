@@ -10,28 +10,34 @@ constexpr std::string_view HELP_MENU =
     " --read <capture.bin>\n"
     " --version\n";
 
+struct main_commands {
+    bool generate;
+    bool read;
+    bool version;
+};
+
+#define MAIN_COMMANDS_INIT { 0 }
+
 int main(int argc, char **argv)
 {
-    bool gen = false;
-    bool read = false;
-    bool version = false;
+    struct main_commands flags = MAIN_COMMANDS_INIT;
     int i;
 
     const option options[] = {
-        OPT_BOOL('g', "gen",  &gen),
-        OPT_BOOL('r', "read", &read),
-        OPT_BOOL('V', "version", &version),
+        OPT_BOOL('g', "gen",  &flags.generate),
+        OPT_BOOL('r', "read", &flags.read),
+        OPT_BOOL('V', "version", &flags.version),
     };
 
     i = parse_options(argc, argv, options);
-    if (int(gen) + int(read) + int(version) > 1)
+    if (int(flags.generate) + int(flags.read) + int(flags.version) > 1)
         die("--gen, --read and --version are mutually exclusive");
 
     /*
      * TODO: @ingest
      * This should be changed to generate a capture file from real data at the ingest.
      */
-    if (gen) {
+    if (flags.generate) {
         if (argc - i != 2)
             die("usage: %s --gen <in.jsonl> <out.bin>", argv[0]);
 
@@ -39,7 +45,7 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    if (read) {
+    if (flags.read) {
         if (argc - i != 1)
             die("usage: %s --read <capture.bin>", argv[0]);
 
@@ -47,7 +53,7 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    if (version) {
+    if (flags.version) {
         printf("Adamastor: %d.%d.%d\n", ADAMASTOR_VERSION[0],
                ADAMASTOR_VERSION[1], ADAMASTOR_VERSION[2]);
         return 0;
