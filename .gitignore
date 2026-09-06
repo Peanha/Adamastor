@@ -3,5 +3,6 @@
 .idea/
 .cache/
 compile_commands.json
+out
 
 .DS_Store
