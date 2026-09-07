@@ -1,0 +1,20 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
+cc_library(
+    name = "replay-util",
+    srcs = ["replay-util.cc"],
+    hdrs = ["util.h", "capture.h"],
+)
+
+cc_library(
+    name = "parse-options",
+    srcs = ["parse-options.cc"],
+    hdrs = ["parse-options.h"],
+    deps = [":replay-util"],
+)
+
+cc_binary(
+    name = "main",
+    srcs = ["main.cc"],
+    deps = [":parse-options", ":replay-util"],
+)
