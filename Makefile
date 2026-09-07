@@ -13,6 +13,9 @@ CXXFLAGS += -Wall -Werror -Wextra \
 
 TARGET = build/adamastor
 
+CLANG_FORMAT ?= clang-format
+CLANG_TIDY   ?= clang-tidy
+
 SRC  = src/main.cc
 SRC  += src/parse-options.cc
 SRC  += src/replay-util.cc
@@ -34,6 +37,15 @@ build:
 clean:
 	rm -rf build/
 
+fmt:
+	$(CLANG_FORMAT) -i src/*.cc src/*.h
+
+fmt-check:
+	$(CLANG_FORMAT) --dry-run -Werror src/*.cc src/*.h
+
+tidy:
+	$(CLANG_TIDY) $(SRC) -- -std=c++20 -I src
+
 -include $(DEP)
 
-.PHONY: all clean
+.PHONY: all clean fmt fmt-check tidy
