@@ -1,9 +1,8 @@
 #include "util.h"
 #include "capture.h"
 
-#include <cstdint>
-#include <cstdio>
-#include <cstdlib>
+#include <chrono>
+#include <algorithm>
 #include <cstring>
 #include <fstream>
 #include <numeric>

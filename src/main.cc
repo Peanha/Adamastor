@@ -3,7 +3,7 @@
 #include "util.h"
 #include <cstdio>
 
-constexpr int ADAMASTOR_VERSION[3] = { 0, 0, 1 };
+constexpr int ADAMASTOR_VERSION[3] = { 0, 1, 0 };
 constexpr std::string_view HELP_MENU =
     " Adamastor HFT usage:\n"
     " --gen <in.jsonl> <out.bin>\n"
