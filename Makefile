@@ -19,6 +19,7 @@ CLANG_TIDY   ?= clang-tidy
 SRC  = src/main.cc
 SRC  += src/parse-options.cc
 SRC  += src/replay-util.cc
+SRC  += src/binance-parser.cc
 
 OBJ = $(SRC:src/%.cc=build/%.o)
 DEP = $(OBJ:.o=.d)
