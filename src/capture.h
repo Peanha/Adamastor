@@ -42,7 +42,7 @@ struct record_header {
  * Note: the timestamps are fake. This function exists because we don't have yet data directly
  * from the exchange.
  */
-void generate_capture(const char* jsonl_path, const char* out_path);
+void generate_capture(const char *jsonl_path, const char *out_path);
 void read_capture(const char *path);
 
 #endif

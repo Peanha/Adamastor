@@ -1,25 +1,24 @@
-#include "util.h"
 #include "capture.h"
+#include "util.h"
 
-#include <chrono>
 #include <algorithm>
+#include <chrono>
+#include <cinttypes>
 #include <cstring>
 #include <fstream>
 #include <numeric>
 #include <string>
 #include <vector>
-#include <cinttypes>
 
 namespace {
-    constexpr uint8_t BINARY_VERSION = 1;
+constexpr uint8_t BINARY_VERSION = 1;
 }
 
 /*
  * TODO: @ingest.
  * Once the ingest can write its own capture files this function SHOULD be removed.
  */
-void generate_capture(const char *jsonl_path, const char *out_path)
-{
+void generate_capture(const char *jsonl_path, const char *out_path) {
     std::ofstream to_write(out_path, std::ios::binary);
     std::ifstream file(jsonl_path);
     std::string buffer;
@@ -52,8 +51,7 @@ void generate_capture(const char *jsonl_path, const char *out_path)
     }
 }
 
-void read_capture(const char *path)
-{
+void read_capture(const char *path) {
     std::ifstream to_read(path, std::ios::binary);
     std::vector<uint64_t> samples;
     std::vector<char> payload;
@@ -105,13 +103,10 @@ void read_capture(const char *path)
     std::sort(samples.begin(), samples.end());
 
     n = samples.size();
-    printf("n=%zu p50=%" PRIu64 " p99=%" PRIu64 " p99.9=%" PRIu64 "\n",
-           n,
-           samples[n / 2],
-           samples[n * 99 / 100],
-           samples[n * 999 / 1000]);
+    printf("n=%zu p50=%" PRIu64 " p99=%" PRIu64 " p99.9=%" PRIu64 "\n", n, samples[n / 2],
+           samples[n * 99 / 100], samples[n * 999 / 1000]);
 
     uint64_t total = std::accumulate(samples.begin(), samples.end(), uint64_t{0});
 
-    printf("throughput=%.0f msg/s\n", 1e9 * n / static_cast<double>(total));
+    printf("throughput=%.0f msg/s\n", 1e9 * static_cast<double>(n) / static_cast<double>(total));
 }

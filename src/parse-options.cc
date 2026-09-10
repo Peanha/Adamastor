@@ -1,12 +1,11 @@
-#include "util.h"
 #include "parse-options.h"
+#include "util.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <span>
-#include <algorithm>
 
-int parse_options(int argc, char **argv, std::span<const option> options)
-{
+int parse_options(int argc, char **argv, std::span<const option> options) {
     int i;
 
     for (i = 1; i < argc; i++) {
@@ -21,15 +20,13 @@ int parse_options(int argc, char **argv, std::span<const option> options)
         if (argv[i][1] == '-') { /* Full name */
             std::string_view name = argv[i] + 2;
 
-            it = std::ranges::find_if(options, [&name](const option &o) {
-                return !o.name.empty() && name == o.name;
-            });
+            it = std::ranges::find_if(
+                options, [&name](const option &o) { return !o.name.empty() && name == o.name; });
         } else if (argv[i][2] == '\0') { /* Abbrev */
             char abbrev = argv[i][1];
 
-            it = std::ranges::find_if(options, [abbrev](const option& o) {
-                return o.abbrev && o.abbrev == abbrev;
-            });
+            it = std::ranges::find_if(
+                options, [abbrev](const option &o) { return o.abbrev && o.abbrev == abbrev; });
         }
 
         if (it == options.end())
@@ -40,7 +37,7 @@ int parse_options(int argc, char **argv, std::span<const option> options)
          */
         switch (it->type) {
         case Option_type::BOOL:
-            *static_cast<bool*>(it->val) = true;
+            *static_cast<bool *>(it->val) = true;
             break;
         }
     }
