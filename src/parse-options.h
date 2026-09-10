@@ -35,7 +35,7 @@ struct option {
     void *val;
 };
 
-#define OPT_BOOL(abbrev, name, var) { abbrev, name, Option_type::BOOL, var }
+#define OPT_BOOL(abbrev, name, var) {abbrev, name, Option_type::BOOL, var}
 
 /*
  * Goes through the CLArgs, searching for matches with the options array.

@@ -3,12 +3,11 @@
 #include "util.h"
 #include <cstdio>
 
-constexpr int ADAMASTOR_VERSION[3] = { 0, 1, 0 };
-constexpr std::string_view HELP_MENU =
-    " Adamastor HFT usage:\n"
-    " --gen <in.jsonl> <out.bin>\n"
-    " --read <capture.bin>\n"
-    " --version\n";
+constexpr int ADAMASTOR_VERSION[3] = {0, 1, 0};
+constexpr char HELP_MENU[] = " Adamastor HFT usage:\n"
+                             " --gen <in.jsonl> <out.bin>\n"
+                             " --read <capture.bin>\n"
+                             " --version\n";
 
 struct main_commands {
     bool generate;
@@ -16,15 +15,14 @@ struct main_commands {
     bool version;
 };
 
-#define MAIN_COMMANDS_INIT { 0 }
+#define MAIN_COMMANDS_INIT {0}
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     struct main_commands flags = MAIN_COMMANDS_INIT;
     int i;
 
     const option options[] = {
-        OPT_BOOL('g', "gen",  &flags.generate),
+        OPT_BOOL('g', "gen", &flags.generate),
         OPT_BOOL('r', "read", &flags.read),
         OPT_BOOL('V', "version", &flags.version),
     };
@@ -54,11 +52,11 @@ int main(int argc, char **argv)
     }
 
     if (flags.version) {
-        printf("Adamastor: %d.%d.%d\n", ADAMASTOR_VERSION[0],
-               ADAMASTOR_VERSION[1], ADAMASTOR_VERSION[2]);
+        printf("Adamastor: %d.%d.%d\n", ADAMASTOR_VERSION[0], ADAMASTOR_VERSION[1],
+               ADAMASTOR_VERSION[2]);
         return 0;
     }
 
-    fprintf(stderr, "%s", HELP_MENU.data());
+    fprintf(stderr, "%s", HELP_MENU);
     return 1;
 }
