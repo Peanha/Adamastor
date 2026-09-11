@@ -3,10 +3,15 @@
 #include "parse-options.h"
 #include "util.h"
 #include <cstdio>
+#include <thread>
+
+#ifdef __APPLE__
+#include <pthread/qos.h>
+#endif
 
 constexpr int ADAMASTOR_VERSION[3] = {0, 1, 0};
 constexpr char HELP_MENU[] = " Adamastor HFT usage:\n"
-                             " --connect \n"
+                             " --connect\n"
                              " --gen <in.jsonl> <out.bin>\n"
                              " --read <capture.bin>\n"
                              " --version\n";
@@ -19,6 +24,12 @@ struct main_commands {
 };
 
 #define MAIN_COMMANDS_INIT {0}
+
+static void set_prio() {
+#ifdef __APPLE__
+    pthread_set_qos_class_self_np(QOS_CLASS_USER_INTERACTIVE, 0);
+#endif
+}
 
 int main(int argc, char **argv) {
     struct main_commands flags = MAIN_COMMANDS_INIT;
@@ -40,7 +51,18 @@ int main(int argc, char **argv) {
         if (argc - i != 0)
             die("usage: %s --connect", argv[0]);
 
-        start_session_binance();
+        /*
+         * Keep in mind:
+         * macOS stack size 512 KB.
+         */
+        std::jthread ingest{[] {
+            set_prio();
+            start_session_binance();
+        }};
+        /*
+         * TODO: @book @transport
+         * Consume from the SPSC queue.
+         */
         return 0;
     }
 
