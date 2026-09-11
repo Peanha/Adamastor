@@ -18,6 +18,7 @@ set(SRC
     src/main.cc
     src/parse-options.cc
     src/replay-util.cc
+    src/client.cc
 )
 
 add_executable(adamastor ${SRC})
