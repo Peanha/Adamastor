@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
         if (argc - i != 0)
             die("usage: %s --connect", argv[0]);
 
-        connect_binance();
+        start_session_binance();
         return 0;
     }
 
