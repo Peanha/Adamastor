@@ -3,9 +3,9 @@
 
 #include "util.h"
 #include <atomic>
+#include <bit>
 #include <cstddef>
 #include <vector>
-#include <bit>
 
 template <typename T> class SPSCQueue {
   private:
@@ -22,7 +22,8 @@ template <typename T> class SPSCQueue {
     alignas(CACHE_LINE) std::atomic<std::size_t> tail;
 
   public:
-    explicit SPSCQueue(std::size_t capacity) : buffer(capacity), capacity_mask(capacity - 1), head(0), tail(0) {
+    explicit SPSCQueue(std::size_t capacity)
+        : buffer(capacity), capacity_mask(capacity - 1), head(0), tail(0) {
         if (!std::has_single_bit(capacity)) {
             die("SPSCQueue capacity must be a power of two");
         }
@@ -65,8 +66,8 @@ template <typename T> class SPSCQueue {
         if (current_head == tail.load(std::memory_order_acquire))
             return false;
         /*
-        * Read the item from the current slot, and then go to the next slot.
-        */
+         * Read the item from the current slot, and then go to the next slot.
+         */
         item = buffer[current_head];
 
         const std::size_t next_head = (current_head + 1) & capacity_mask;
