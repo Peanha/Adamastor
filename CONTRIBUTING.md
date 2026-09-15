@@ -4,10 +4,10 @@
 
 run:
 
-    make tidy
+    cmake --build build --target tidy
 
 ## fmt code
 
 run:
 
-    make fmt
+    cmake --build build --target fmt
