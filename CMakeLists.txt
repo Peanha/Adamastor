@@ -20,6 +20,7 @@ add_executable(adamastor ${SRC})
 
 find_package(boost_beast CONFIG REQUIRED)
 find_package(OpenSSL REQUIRED)
+find_package(GTest CONFIG REQUIRED)
 
 target_link_libraries(adamastor PRIVATE Boost::beast OpenSSL::SSL OpenSSL::Crypto)
 
@@ -44,6 +45,7 @@ set(CLANG_TIDY clang-tidy CACHE STRING "clang-tidy binary")
 file(GLOB FMT_FILES CONFIGURE_DEPENDS
     ${CMAKE_SOURCE_DIR}/src/*.cc
     ${CMAKE_SOURCE_DIR}/src/*.h
+    ${CMAKE_SOURCE_DIR}/tests/*.cc
 )
 
 add_custom_target(fmt
@@ -60,3 +62,17 @@ add_custom_target(tidy
     COMMAND ${CLANG_TIDY} -p ${CMAKE_BINARY_DIR} ${SRC}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
+
+enable_testing()
+include(GoogleTest)
+
+file(GLOB TEST_FILES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/tests/*.cc)
+
+foreach(test_file ${TEST_FILES})
+    get_filename_component(test_name ${test_file} NAME_WE)
+    add_executable(${test_name} ${test_file})
+    target_include_directories(${test_name} PRIVATE src)
+    target_link_libraries(${test_name} PRIVATE GTest::gtest GTest::gtest_main)
+    gtest_discover_tests(${test_name})
+endforeach()
+
